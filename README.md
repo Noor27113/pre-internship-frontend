@@ -9,8 +9,8 @@ I am submitting my frontend pre‑internship assignment as per the provided Figm
 
 The project has been developed using Next.js, Tailwind CSS, and lucide‑react, with localStorage implemented as required.
 
-GitHub Repository: [your GitHub repo link]
-Netlify Deployment: [your Netlify link]
+GitHub Repository: [https://github.com/Noor27113/pre-internship-frontend]
+Netlify Deployment: [https://pre-internship-frontend.netlify.app]
 
 I have ensured pixel‑perfect alignment with the Figma design, responsive layouts, and recruiter‑grade polish. Please let me know if you need any additional details.
 
