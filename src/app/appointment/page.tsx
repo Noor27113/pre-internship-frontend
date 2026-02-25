@@ -52,8 +52,6 @@ export default function AppointmentPage() {
 
   const [step, setStep] = useState<number>(1);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
-  // ✅ FIXED: Allow null for strict production build
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const morningSlots = [
@@ -79,9 +77,6 @@ export default function AppointmentPage() {
   const [availableEveningSlots, setAvailableEveningSlots] =
     useState<string[]>(eveningSlots);
 
-  /* =========================
-     Date Change Logic
-  ========================== */
   useEffect(() => {
     if (!selectedDate) return;
 
@@ -97,9 +92,6 @@ export default function AppointmentPage() {
     }
   }, [selectedDate]);
 
-  /* =========================
-     Booking Handler
-  ========================== */
   const handleBooking = () => {
     if (!selectedSlot || !selectedDate) {
       alert("Please select a date and time slot");
@@ -151,6 +143,7 @@ export default function AppointmentPage() {
               <DoctorCard />
             </div>
 
+            {/* Stats */}
             <div className="px-6 mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               {stats.map((item, index) => (
                 <div
@@ -166,6 +159,47 @@ export default function AppointmentPage() {
                   <p className="text-xs text-gray-500">{item.label}</p>
                 </div>
               ))}
+            </div>
+
+            {/* About / Service / Availability */}
+            <div className="px-6 mt-6 text-sm text-gray-600 md:flex md:gap-10">
+              <div className="flex-1 mb-6 md:mb-0 bg-white p-4 rounded-xl">
+                <h2 className="font-semibold text-gray-800 mb-2">
+                  About Doctor
+                </h2>
+                <p>
+                  15+ years of experience in cardiology including
+                  non-invasive and interventional procedures.
+                </p>
+              </div>
+
+              <div className="flex-1 mb-6 md:mb-0 bg-white p-4 rounded-xl">
+                <h2 className="font-semibold text-gray-800 mb-3">
+                  Service & Specialization
+                </h2>
+                <div className="flex justify-between mb-2">
+                  <span>Service</span>
+                  <span className="font-medium text-gray-800">Medicare</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Specialization</span>
+                  <span className="font-medium text-gray-800">
+                    Cardiology
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex-1 bg-white p-4 rounded-xl">
+                <h2 className="font-semibold text-gray-800 mb-3">
+                  Availability
+                </h2>
+                <div className="flex justify-between">
+                  <span>Mon - Fri</span>
+                  <span className="font-medium text-gray-800">
+                    10 AM - 5 PM
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div className="px-6 mt-8">
@@ -278,7 +312,7 @@ export default function AppointmentPage() {
         )}
       </div>
 
-      {/* ========================= MOBILE BOTTOM NAV ========================= */}
+      {/* Mobile Bottom Nav */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t flex justify-around py-3">
         <Search size={24} />
         <Calendar size={24} />
