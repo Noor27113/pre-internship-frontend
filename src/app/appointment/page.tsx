@@ -50,9 +50,11 @@ function DoctorCard() {
 export default function AppointmentPage() {
   const router = useRouter();
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState<number>(1);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  // ✅ FIXED: Allow null for strict production build
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const morningSlots = [
     "09:30 AM - 9:45AM",
@@ -77,7 +79,12 @@ export default function AppointmentPage() {
   const [availableEveningSlots, setAvailableEveningSlots] =
     useState<string[]>(eveningSlots);
 
+  /* =========================
+     Date Change Logic
+  ========================== */
   useEffect(() => {
+    if (!selectedDate) return;
+
     const day = selectedDate.getDay();
     setSelectedSlot(null);
 
@@ -90,9 +97,12 @@ export default function AppointmentPage() {
     }
   }, [selectedDate]);
 
+  /* =========================
+     Booking Handler
+  ========================== */
   const handleBooking = () => {
-    if (!selectedSlot) {
-      alert("Please select a time slot");
+    if (!selectedSlot || !selectedDate) {
+      alert("Please select a date and time slot");
       return;
     }
 
@@ -119,8 +129,6 @@ export default function AppointmentPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-
-      {/* ========================= MAIN CONTENT ========================= */}
       <div className="flex-1 pb-24">
 
         {/* ========================= BOOKING 5 ========================= */}
@@ -160,44 +168,6 @@ export default function AppointmentPage() {
               ))}
             </div>
 
-            <div className="px-6 mt-6 text-sm text-gray-600 md:flex md:gap-10">
-              <div className="flex-1 mb-6 md:mb-0 bg-white p-4 rounded-xl">
-                <h2 className="font-semibold text-gray-800 mb-2">
-                  About Doctor
-                </h2>
-                <p>
-                  15+ years of experience in cardiology including
-                  non-invasive and interventional procedures.
-                </p>
-              </div>
-
-              <div className="flex-1 mb-6 md:mb-0 bg-white p-4 rounded-xl">
-                <h2 className="font-semibold text-gray-800 mb-3">
-                  Service & Specialization
-                </h2>
-                <div className="flex justify-between mb-2">
-                  <span>Service</span>
-                  <span className="font-medium text-gray-800">Medicare</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Specialization</span>
-                  <span className="font-medium text-gray-800">Cardiology</span>
-                </div>
-              </div>
-
-              <div className="flex-1 bg-white p-4 rounded-xl">
-                <h2 className="font-semibold text-gray-800 mb-3">
-                  Availability
-                </h2>
-                <div className="flex justify-between">
-                  <span>Mon - Fri</span>
-                  <span className="font-medium text-gray-800">
-                    10 AM - 5 PM
-                  </span>
-                </div>
-              </div>
-            </div>
-
             <div className="px-6 mt-8">
               <button
                 onClick={() => setStep(2)}
@@ -209,7 +179,7 @@ export default function AppointmentPage() {
           </>
         )}
 
-        {/* ========================= BOOKING 6 (FULLY KEPT) ========================= */}
+        {/* ========================= BOOKING 6 ========================= */}
         {step === 2 && (
           <>
             <div className="bg-[#46c2de] text-white px-6 pt-8 pb-16 rounded-b-3xl">
@@ -232,7 +202,7 @@ export default function AppointmentPage() {
             <div className="px-6 mt-6 pb-12">
               <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
                 <span>
-                  {selectedDate.toLocaleDateString("en-US", {
+                  {selectedDate?.toLocaleDateString("en-US", {
                     month: "long",
                     day: "numeric",
                     year: "numeric",
@@ -241,7 +211,7 @@ export default function AppointmentPage() {
 
                 <DatePicker
                   selected={selectedDate}
-                  onChange={(date) => date && setSelectedDate(date)}
+                  onChange={(date: Date | null) => setSelectedDate(date)}
                   minDate={new Date()}
                   filterDate={(date) => date.getDay() !== 0}
                   customInput={
