@@ -97,7 +97,7 @@ export default function OTPPage() {
 
     if (enteredOtp === storedOtp) {
       localStorage.setItem("otpVerified", "true");
-      router.push("/dashboard");
+      router.push("/home"); // ✅ Redirects to Home Page after OTP verification
     } else {
       setError(true);
     }
