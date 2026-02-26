@@ -154,7 +154,10 @@ export default function AppointmentScheduledPage() {
             Add Patient Details
           </p>
 
-          <button className="flex items-center gap-2 border border-[#46c2de] text-[#46c2de] px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#46c2de] hover:text-white transition">
+          <button
+            onClick={() => router.push("/details")}
+            className="flex items-center gap-2 border border-[#46c2de] text-[#46c2de] px-4 py-2 rounded-xl text-sm font-medium hover:bg-[#46c2de] hover:text-white transition"
+          >
             <Plus size={16} />
             Add Patient Details
           </button>

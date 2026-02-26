@@ -92,9 +92,21 @@ export default function AppointmentPage() {
     }
   }, [selectedDate]);
 
+  /* =========================
+     UPDATED BOOKING LOGIC
+     (ONLY ADDITION)
+  ========================= */
   const handleBooking = () => {
     if (!selectedSlot || !selectedDate) {
       alert("Please select a date and time slot");
+      return;
+    }
+
+    // Simulate availability check
+    const slotAvailable = Math.random() > 0.5;
+
+    if (!slotAvailable) {
+      router.push("/unable");
       return;
     }
 
